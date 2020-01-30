@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul-server
+  labels:
+    consul: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      consul: server
+  template:
+    metadata:
+      labels:
+        consul: server
+    spec:
+      containers:
+      - name: consul-server
+        image: consul
+        args: 
+          - "agent"
+          - "-server"
+          - "-ui"
+          - "-node=server-1"
+          - "-bootstrap-expect=1"
+          - "-client=0.0.0.0"
+        ports:
+        - containerPort: 8500
+          name: consulserverui
+        - containerPort: 8600
+          name: consul-server

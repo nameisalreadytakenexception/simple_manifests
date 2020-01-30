@@ -1,0 +1,36 @@
+replicaCount: 3
+image:
+  repository: bitnami/consul
+  pullPolicy: Always
+  enviroment: 
+    - CONSUL_BOOTSTRAP_EXPECT=1
+    - CONSUL_CLIENT_LAN_ADDRESS=0.0.0.0
+    - CONSUL_DISABLE_KEYRING_FILE=true
+    - CONSUL_RETRY_JOIN_ADDRESS='provider=k8s label_selector="app=my-consul","release=my-consul"'
+service:
+  enabled: true
+  type: NodePort 
+  ports:
+    p1:
+      port: 8500
+    p2:
+      port: 8600
+ingress:
+  enabled: false
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  path: /*
+  hosts:
+    - host: 192.168.99.103 #minikube ip
+      paths: ["/"]
+  tls: []
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: consul-client-6
+  labels:
+    consul: client
+spec:
+  containers:
+  - name: consul-client
+    image: consul
+    args: 
+      - agent
+      - -retry-join
+      - 'provider=k8s label_selector="app=my-consul","release=my-consul"'

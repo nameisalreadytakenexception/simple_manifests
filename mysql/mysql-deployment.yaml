@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql-centos
+  labels:
+    db: centos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      db: centos
+  template:
+    metadata:
+      labels:
+        db: centos
+    spec:
+      containers:
+      - name: sql-centos
+        image: 127.0.0.1:443/mysql:centos
+        ports:
+        - containerPort: 3306
+          name: db-port
